@@ -69,10 +69,16 @@ public_users.get('/title/:title',function (req, res) {
 });
 
 //  Get book review
-public_users.get('/review/:isbn',function (req, res) {
-    const ISBN = req.params.isbn;
-    const book = books[ISBN]
-    res.send(books[1]["reviews"])
+public_users.get('/review/:isbn', function (req, res) {
+    const ISBN = req.params.isbn; // Get ISBN from request parameters
+
+    // Check if the ISBN exists in the books dictionary
+    if (books[ISBN]) {
+        const reviews = books[ISBN].reviews; // Extract the reviews for the book
+        return res.status(200).json({ reviews });
+    } else {
+        return res.status(404).json({ message: `No book found with ISBN: ${ISBN}` });
+    }
 });
 
 module.exports.general = public_users;
